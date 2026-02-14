@@ -1,0 +1,1 @@
+// FILE DELETED: Component replaced by native implementation in HomeFeature.tsx

@@ -1,0 +1,54 @@
+
+import React from 'react';
+import { Event } from '../../types';
+import { ICONS } from '../../constants';
+
+interface SearchEventListProps {
+  events: Event[];
+  query: string;
+  onEventClick?: (eventId: string) => void;
+}
+
+export const SearchEventList: React.FC<SearchEventListProps> = ({ events, query, onEventClick }) => {
+  return (
+    <div className="space-y-4">
+      {query.trim() ? (
+        events.length > 0 ? events.map(event => (
+          <div key={event.id} onClick={() => onEventClick?.(event.id)} className="group flex items-center gap-6 p-4 bg-zinc-900/20 border border-white/5 rounded-[2rem] hover:bg-white/5 transition-all cursor-pointer active:scale-95">
+            <div className="w-20 h-20 rounded-2xl overflow-hidden flex-shrink-0">
+              <>
+              <img src={event.image}
+                onError={(e) => {
+                  const el = e.currentTarget as HTMLImageElement;
+                  el.style.display = "none";
+                  const parent = el.parentElement;
+                  const fb = parent?.querySelector('[data-vanta-fallback="event"]') as HTMLElement | null;
+                  if (fb) fb.style.display = "flex";
+                }}
+                className="w-full h-full object-cover transition-all duration-500" alt="" />
+              <div data-vanta-fallback="event" style={{ display: "none" }} className="w-full h-full items-center justify-center bg-zinc-950">
+                <span className="text-[10px] font-serif italic text-[#d4af37] font-bold">V</span>
+              </div>
+            </>
+            </div>
+            <div className="flex-1 min-w-0">
+              <h3 className="text-white text-[11px] font-black uppercase tracking-widest mb-1 truncate">{event.title}</h3>
+              <p className="text-zinc-500 text-[8px] font-black uppercase tracking-widest truncate">{event.location}</p>
+            </div>
+          </div>
+        )) : (
+          <div className="py-20 text-center opacity-30">
+            <p className="text-[9px] font-black uppercase tracking-widest">Nenhuma sessão encontrada</p>
+          </div>
+        )
+      ) : (
+        <div className="h-64 flex flex-col items-center justify-center text-center px-8 space-y-6">
+           <ICONS.Search className="w-10 h-10 text-zinc-800 opacity-20" />
+           <p className="text-[9px] font-black uppercase tracking-[0.5em] text-zinc-700 leading-relaxed max-w-[280px]">
+             O ACESSO AOS MELHORES EVENTOS COMEÇA AQUI. PROCURE POR EVENTOS OU CLUBES.
+           </p>
+        </div>
+      )}
+    </div>
+  );
+};

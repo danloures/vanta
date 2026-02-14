@@ -1,0 +1,70 @@
+#!/usr/bin/env bash
+set -euo pipefail
+
+PORT="${PORT:-3000}"
+PIDFILE="/tmp/VANTA_vite_${PORT}.pid"
+LOG="/tmp/VANTA_vite_${PORT}.out"
+
+pids_listening() { lsof -t -iTCP:"$PORT" -sTCP:LISTEN 2>/dev/null || true; }
+pidfile_pid() { [ -f "$PIDFILE" ] && cat "$PIDFILE" 2>/dev/null || true; }
+is_alive() { local p="$1"; [ -n "${p:-}" ] && kill -0 "$p" 2>/dev/null; }
+
+status() {
+  echo "PORT=$PORT"
+  echo "PIDFILE=$PIDFILE"
+  echo "LOG=$LOG"
+  local pf; pf="$(pidfile_pid)"
+  echo "PIDFILE_PID=${pf:-<none>}"
+  if is_alive "$pf"; then echo "PIDFILE_PID_ALIVE=yes"; else echo "PIDFILE_PID_ALIVE=no"; fi
+  local lp; lp="$(pids_listening | tr "\n" " " | sed -e "s/[[:space:]]\+$//")"
+  echo "LISTEN_PIDS=${lp:-<none>}"
+  echo
+  echo "PS (vite/npm)"; ps aux | egrep -i "node .*vite|npm run dev|vite --port" | egrep -v "egrep|grep" || true
+}
+
+stop() {
+  local pf; pf="$(pidfile_pid)"
+  local lp; lp="$(pids_listening)"
+  local targets=""
+  if [ -n "${pf:-}" ]; then targets="$targets $pf"; fi
+  if [ -n "${lp:-}" ]; then targets="$targets $lp"; fi
+  targets="$(echo "$targets" | tr " " "\n" | awk "NF" | sort -u | tr "\n" " " | sed -e "s/[[:space:]]\+$//")"
+  echo "STOP targets: ${targets:-<none>}"
+  if [ -n "${targets:-}" ]; then
+    kill $targets 2>/dev/null || true
+    sleep 0.3
+    kill -9 $targets 2>/dev/null || true
+  fi
+  rm -f "$PIDFILE" || true
+  echo "STOP ok"
+}
+
+start() {
+  # prevent duplicates
+  stop >/dev/null 2>&1 || true
+  : > "$LOG"
+  echo "START: npm run dev -- --port $PORT"
+  nohup npm run dev -- --port "$PORT" > "$LOG" 2>&1 &
+  local npid="$!"
+  echo "$npid" > "$PIDFILE"
+  disown || true
+  echo "STARTED pid=$npid"
+  sleep 0.4
+  echo
+  status | sed -n "1,12p"
+  echo
+  echo "TAIL (last 20):"
+  tail -n 20 "$LOG" || true
+}
+
+restart(){ stop; start; }
+logs(){ tail -n 60 "$LOG" || true; }
+
+case "${1:-}" in
+  start) start ;;
+  stop) stop ;;
+  restart) restart ;;
+  status) status ;;
+  logs) logs ;;
+  *) echo "Usage: ./devctl {start|stop|restart|status|logs}  (env: PORT=3000)"; exit 1 ;;
+esac

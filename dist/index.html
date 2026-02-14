@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head> 
+  <link rel="icon" href="./favicon.ico" sizes="any">
+<link rel="icon" href="./favicon.svg" type="image/svg+xml">
+<link rel="apple-touch-icon" href="./apple-touch-icon.png">
+<link rel="manifest" href="./manifest.webmanifest">
+<meta name="theme-color" content="#050505">
+
+  <meta charset="UTF-8">
+  <!-- VANTA_VITRIFICATION: Viewport travado para experiência nativa (No Zoom, No Scalable) -->
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
+  <title>VANTA | Acesso a Estilo de Vida</title>
+
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400..900;1,400..900&family=Inter:wght@100..900&display=swap" rel="stylesheet">
+
+  <style>
+    :root { --vanta-gold: #d4af37; }
+    html, body {
+      background-color: #050505;
+      color: #fff;
+      font-family: 'Inter', sans-serif;
+      margin: 0;
+      padding: 0;
+      width: 100%;
+      height: 100%;
+      overflow: hidden;
+      position: fixed;
+      -webkit-font-smoothing: antialiased;
+      user-select: none;
+      -webkit-user-select: none;
+      touch-action: manipulation;
+      overscroll-behavior: none;
+    }
+    #root { width: 100%; height: 100%; overflow: hidden; }
+    .font-serif { font-family: 'Playfair Display', serif; }
+    .animate-ken-burns { animation: kenburns 40s infinite alternate cubic-bezier(0.445, 0.05, 0.55, 0.95); }
+    @keyframes kenburns { 0% { transform: scale(1.02); } 100% { transform: scale(1.10); } }
+
+    .animate-shimmer {
+      background: linear-gradient(90deg, rgba(255,255,255,0) 0%, rgba(255,255,255,0.03) 50%, rgba(255,255,255,0) 100%);
+      background-size: 200% 100%;
+      animation: shimmer 2s infinite linear;
+    }
+    @keyframes shimmer {
+      0% { background-position: -200% 0; }
+      100% { background-position: 200% 0; }
+    }
+
+    .no-scrollbar::-webkit-scrollbar { display: none; }
+    .glass { background: rgba(18, 18, 18, 0.75); backdrop-filter: blur(25px); -webkit-backdrop-filter: blur(25px); border: 1px solid rgba(255, 255, 255, 0.05); }
+    .safe-top { padding-top: env(safe-area-inset-top); }
+    .safe-bottom { padding-bottom: env(safe-area-inset-bottom); }
+  </style>
+
+  <!-- ENV + DEV SW CLEANUP (tudo num único script válido) -->
+  <script>
+    window.process = { env: { NODE_ENV: 'production' } };
+
+    window.__VANTA_ENV__ = {
+      VITE_SUPABASE_URL: "https://qqhibtvkkycqwpreaert.supabase.co",
+      VITE_SUPABASE_ANON_KEY: "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InFxaGlidHZra3ljcXdwcmVhZXJ0Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzA5Mjk3NjIsImV4cCI6MjA4NjUwNTc2Mn0.pm9Q4SpFjC9A3xC47HbztjFUTalpGHMaMDAeBhQAlbw"
+    };  </script>
+
+
+
+  <script type="importmap">
+{
+  "imports": {
+    "react": "https://esm.sh/react@19.0.0",
+    "react-dom": "https://esm.sh/react-dom@19.0.0",
+    "react-dom/client": "https://esm.sh/react-dom@19.0.0/client?external=react",
+    "@google/genai": "https://esm.sh/@google/genai@1.39.0",
+    "@supabase/supabase-js": "https://esm.sh/@supabase/supabase-js@2.94.0",
+    "qrcode.react": "https://esm.sh/qrcode.react@^4.2.0",
+    "html5-qrcode": "https://esm.sh/html5-qrcode@^2.3.8",
+    "@mediapipe/tasks-vision": "https://esm.sh/@mediapipe/tasks-vision@0.10.8",
+    "react/": "https://esm.sh/react@^19.2.4/",
+    "react-dom/": "https://esm.sh/react-dom@^19.2.4/",
+    "@vitejs/plugin-react": "https://esm.sh/@vitejs/plugin-react@^5.1.4",
+    "vite": "https://esm.sh/vite@^7.3.1"
+  }
+}
+  </script>
+  <script type="module" crossorigin src="./assets/index-BqUZcrrO.js"></script>
+  <link rel="stylesheet" crossorigin href="./assets/index-BsCRs2UJ.css">
+</head>
+<body>
+  <div id="root"></div>
+</body>
+
+</html>

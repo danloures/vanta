@@ -1,0 +1,116 @@
+import React from 'react';
+import { Event } from '../../types';
+import { ICONS } from '../../constants';
+
+interface HomeEventListProps {
+  events: Event[];
+  isConfigured: boolean;
+  onEventClick: (eventId: string) => void;
+}
+
+export const HomeEventList: React.FC<HomeEventListProps> = ({
+  events,
+  isConfigured,
+  onEventClick,
+}) => {
+  if (!isConfigured) {
+    return (
+      <div className="py-20 text-center border border-dashed border-white/5 rounded-[2.5rem] bg-zinc-950/20 px-8">
+        <h4 className="text-white text-xs font-black uppercase tracking-widest mb-2">
+          Sincronização offline
+        </h4>
+        <p className="text-zinc-700 text-[8px] font-black uppercase tracking-widest leading-loose italic">
+          Aguardando conexão com a rede master.
+        </p>
+      </div>
+    );
+  }
+
+  if (events.length === 0) {
+    return (
+      <div className="py-24 text-center border border-dashed border-white/5 rounded-[2.5rem] bg-zinc-950/20 opacity-30">
+        <div className="w-10 h-10 border border-zinc-800 rounded-full flex items-center justify-center mx-auto mb-4">
+          <ICONS.Calendar className="w-4 h-4 text-zinc-800" />
+        </div>
+        <p className="text-zinc-700 text-[9px] font-black uppercase tracking-[0.4em]">
+          Nenhuma sessão disponível
+        </p>
+        <p className="text-zinc-800 text-[7px] font-black uppercase tracking-widest mt-2 italic">
+          Tente selecionar outra cidade.
+        </p>
+      </div>
+    );
+  }
+
+  return (
+    <div className="space-y-10">
+      {events.map((event) => {
+        const raw =
+          (event as any)?.image_url ??
+          (event as any)?.image ??
+          (event as any)?.imageUrl ??
+          '';
+
+        const imgSrc =
+          typeof raw === 'string' && raw.trim().length > 0 ? raw.trim() : null;
+
+        return (
+          <div
+            key={event.id}
+            onClick={() => onEventClick(event.id)}
+            className="group active:scale-[0.98] transition-all cursor-pointer relative"
+          >
+            <div className="aspect-[16/9] w-full rounded-[2.5rem] overflow-hidden border border-white/5 mb-4 relative shadow-xl">
+              {imgSrc ? (
+                <>
+                <img
+                  src={imgSrc}
+                  alt={event.title}
+                  onError={(e) => {
+                    const el = e.currentTarget as HTMLImageElement;
+                    el.style.display = 'none';
+                    const parent = el.parentElement;
+                    const fb = parent?.querySelector('[data-vanta-fallback="event"]') as HTMLElement | null;
+                    if (fb) fb.style.display = 'flex';
+                  }}
+                  className="w-full h-full object-cover transition-all duration-1000 group-hover:scale-110 grayscale-[0.2] group-hover:grayscale-0"
+                />
+                <div data-vanta-fallback="event" style={{ display: 'none' }} className="w-full h-full items-center justify-center bg-zinc-950">
+                  <span className="text-[10px] font-serif italic text-[#d4af37] font-bold">V</span>
+                </div>
+                </>
+              ) : (
+                <div className="w-full h-full bg-white/5" />
+              )}
+
+              <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent opacity-0 group-hover:opacity-100 transition-opacity" />
+
+              {(event as any).isFeatured && (
+                <div className="absolute top-4 right-4 bg-white/10 backdrop-blur-md border border-white/20 px-3 py-1 rounded-full">
+                  <span className="text-[6px] text-white font-black uppercase tracking-widest">
+                    RECOMENDADO
+                  </span>
+                </div>
+              )}
+            </div>
+
+            <div className="px-4">
+              <div className="flex justify-between items-start mb-1">
+                <h3 className="text-white text-[13px] font-black uppercase tracking-widest truncate max-w-[70%]">
+                  {event.title}
+                </h3>
+                <span className="text-[8px] text-[#d4af37] font-black uppercase tracking-widest">
+                  {event.startTime}
+                </span>
+              </div>
+
+              <p className="text-zinc-500 text-[9px] font-black uppercase tracking-wider italic">
+                {event.startDate} • {event.location}
+              </p>
+            </div>
+          </div>
+        );
+      })}
+    </div>
+  );
+};
