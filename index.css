@@ -1,0 +1,85 @@
+
+/* 
+  VANTA SYSTEM STYLES - VERSION 5.2 (VITRIFIED)
+  Protocolo de Experiência Nativa e Estabilidade Visual
+*/
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+* {
+  -webkit-tap-highlight-color: transparent;
+  outline: none !important;
+}
+
+body {
+  background-color: #050505;
+  color: #fff;
+  margin: 0;
+  overflow: hidden;
+  height: 100vh;
+  width: 100vw;
+  /* VANTA_HARDENING: Impede seleção de texto acidental na UI de app */
+  user-select: none;
+  -webkit-user-select: none;
+}
+
+/* 
+  VANTA_TYPOGRAPHY_V2: 
+  Ajuste global para inputs mais sofisticados e minimalistas.
+  Força caixa alta e espaçamento largo para reduzir a poluição visual.
+*/
+input, textarea, select {
+  font-family: 'Inter', sans-serif !important;
+  font-size: 11px !important; 
+  text-transform: uppercase !important;
+  letter-spacing: 0.15em !important;
+  font-weight: 700 !important; /* Bold/Black */
+}
+
+/* Placeholders mais sutis e discretos */
+input::placeholder, textarea::placeholder {
+  color: rgba(82, 82, 91, 0.6) !important; /* Zinc-600 com baixa opacidade */
+  font-size: 10px !important;
+  letter-spacing: 0.2em !important;
+  font-weight: 600 !important;
+}
+
+::selection {
+  background: rgba(212, 175, 55, 0.3);
+  color: #fff;
+}
+
+/* Vitrificação de Scroll */
+.no-scrollbar {
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+}
+
+.no-scrollbar::-webkit-scrollbar {
+  display: none;
+}
+
+/* Ajustes de Safe Area para Dispositivos de Elite */
+.safe-top {
+  padding-top: env(safe-area-inset-top);
+}
+
+.safe-bottom {
+  padding-bottom: env(safe-area-inset-bottom);
+}
+
+/* Blindagem de Interação */
+button:active {
+  transform: scale(0.96);
+  transition: transform 0.1s ease-out;
+}
+
+/* VANTA_PROTECTION: Impede menu de contexto e arraste de imagens */
+img {
+  pointer-events: none; 
+  -webkit-user-drag: none;
+  user-select: none;
+  -webkit-user-select: none;
+}
