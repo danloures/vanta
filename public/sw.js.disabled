@@ -1,0 +1,51 @@
+
+// VANTA SERVICE WORKER v1.0
+// Gerencia notificações push e cache estratégico
+
+self.addEventListener('push', function(event) {
+  if (!(self.Notification && self.Notification.permission === 'granted')) {
+    return;
+  }
+
+  const data = event.data ? event.data.json() : {};
+  const title = data.title || 'VANTA';
+  const options = {
+    body: data.body || 'Você tem uma nova atualização.',
+    icon: '/icon-192.png', // Certifique-se de ter este ícone ou similar na pasta public
+    badge: '/badge.png',   // Ícone monocromático para barra de status Android
+    vibrate: [100, 50, 100],
+    data: {
+      url: data.url || '/',
+      dateOfArrival: Date.now(),
+      primaryKey: 1
+    },
+    actions: [
+      {action: 'explore', title: 'Ver Agora'}
+    ]
+  };
+
+  event.waitUntil(
+    self.registration.showNotification(title, options)
+  );
+});
+
+self.addEventListener('notificationclick', function(event) {
+  event.notification.close();
+
+  // Foca na janela aberta se existir, ou abre uma nova
+  event.waitUntil(
+    clients.matchAll({type: 'window', includeUncontrolled: true}).then(function(clientList) {
+      const urlToOpen = event.notification.data.url || '/';
+      
+      for (var i = 0; i < clientList.length; i++) {
+        var client = clientList[i];
+        if (client.url === urlToOpen && 'focus' in client) {
+          return client.focus();
+        }
+      }
+      if (clients.openWindow) {
+        return clients.openWindow(urlToOpen);
+      }
+    })
+  );
+});

@@ -1,0 +1,2 @@
+-- FILE DELETED
+-- Use '00_nuclear_wipe.sql' para limpar e '01_restore_structure.sql' para reconstruir.

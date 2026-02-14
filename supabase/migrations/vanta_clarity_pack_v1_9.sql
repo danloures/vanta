@@ -1,0 +1,1 @@
+-- FILE DELETED: Legacy migration replaced by v5.0 structure.

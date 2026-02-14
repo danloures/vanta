@@ -1,0 +1,2 @@
+-- FILE DELETED
+-- A configuração de Storage Buckets foi migrada para 'supabase/migrations/01_restore_structure.sql'.

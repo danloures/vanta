@@ -1,0 +1,27 @@
+{
+  "name": "vanta-lifestyle",
+  "version": "1.0.0",
+  "type": "module",
+  "dependencies": {
+    "react": "^19.0.0",
+    "react-dom": "^19.0.0",
+    "@supabase/supabase-js": "^2.94.0",
+    "mapbox-gl": "^3.18.1",
+    "@google/genai": "^1.39.0",
+    "qrcode.react": "^4.2.0",
+    "html5-qrcode": "^2.3.8",
+    "@mediapipe/tasks-vision": "^0.10.8"
+  },
+  "devDependencies": {
+    "vite": "^6.0.0",
+    "@vitejs/plugin-react": "^4.3.0",
+    "typescript": "^5.7.0",
+    "@types/react": "^19.0.0",
+    "@types/react-dom": "^19.0.0"
+  },
+  "scripts": {
+    "dev": "vite",
+    "build": "vite build",
+    "preview": "vite preview"
+  }
+}

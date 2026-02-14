@@ -1,0 +1,3 @@
+-- FILE DELETED
+-- A estrutura oficial do banco de dados foi consolidada em 'supabase/migrations/01_restore_structure.sql'.
+-- Este arquivo pode ser removido com segurança.

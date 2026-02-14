@@ -1,0 +1,2 @@
+-- FILE DELETED
+-- As políticas de segurança RLS foram migradas para 'supabase/migrations/01_restore_structure.sql'.

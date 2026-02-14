@@ -1,0 +1,2 @@
+-- FILE DELETED
+-- As funções e triggers do banco de dados foram migrados para 'supabase/migrations/01_restore_structure.sql'.
