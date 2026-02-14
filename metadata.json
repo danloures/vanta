@@ -1,0 +1,8 @@
+{
+  "name": "vanta",
+  "description": "Uma plataforma ultra-exclusiva de gestão de estilo de vida e acesso a eventos para membros selecionados. Experimente eventos de alto padrão, networking criptografado e serviços de concierge de elite.",
+  "requestFramePermissions": [
+    "camera",
+    "geolocation"
+  ]
+}
